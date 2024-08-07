@@ -48,10 +48,22 @@ async function handlePost(req, res) {
       .select('*')
       .eq('isActive', true);
 
-    if (activePopupsError) throw activePopupsError;
+    const { data: recentPopups, error: recentPopupsError } = await supabase
+      .from('Dynamic Popup')
+      .select('*')
+      .eq('isActive', false);
 
-    if (activePopups.length >= 2) {
-      return res.status(400).json({ message: 'Maximum number of active popups reached' });
+    if (activePopupsError) throw activePopupsError;
+    if (recentPopupsError) throw recentPopupsError;
+
+    if (activePopups.length >= 2 && recentPopups.length == 0) {
+      return res.status(402).json({ message: 'Maximum number of active popups reached. Delete or deactivate ateast one to add new popup.' });
+    }
+    else if (recentPopups.length >= 2 && activePopups.length ==0) {
+      return res.status(402).json({ message: 'Maximum number of recent popups reached. Delete or activate ateast one to add new popup.' });
+    }
+    else if (recentPopups.length == 1 && activePopups.length ==1) {
+      return res.status(402).json({ message: 'Maximum number of popups reached. Delete ateast one to add a new popup.' });
     }
 
     const popupConfig = {
@@ -74,7 +86,7 @@ async function handlePost(req, res) {
     if (error) throw error;
 
     res.status(200).json({
-      message: 'Popup configuration received successfully',
+      message: 'Popup has been added successfully.',
       data: popupConfig,
     });
   } catch (error) {

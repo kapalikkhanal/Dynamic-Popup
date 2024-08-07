@@ -5,6 +5,7 @@ import Image from 'next/image';
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import { Rnd } from 'react-rnd';
+import toast from 'react-hot-toast';
 
 const DraggableResizableBox = ({ content, style }) => {
   return (
@@ -129,6 +130,7 @@ const Popup = () => {
         });
 
         if (response.status === 200) {
+          notifySuccess(response.data.message)
           setShowPopupForm(false);
           setActivePopups(prevActivePopups => [...prevActivePopups, response.data.data]);
         }
@@ -138,7 +140,9 @@ const Popup = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error.response.data.message);
+      notifyError(error.response.data.message);
+      setShowPopupForm(false)
       setLoading(false);
     }
   };
@@ -177,10 +181,12 @@ const Popup = () => {
 
     try {
       // Send update to backend
-      await axios.put('/api/popup', {
+      const response = await axios.put('/api/popup', {
         uuid: popup.uuid,
         popup: updatedPopup.isActive
       });
+
+      notifySuccess(response.data.message)
 
       if (updatedPopup.isActive) {
         // Move popup to active popups
@@ -198,8 +204,8 @@ const Popup = () => {
 
   const handleDelete = async (popup) => {
     try {
-      await axios.delete('/api/popup', { data: { uuid: popup.uuid } });
-
+      const response = await axios.delete('/api/popup', { data: { uuid: popup.uuid } });
+      notifySuccess(response.data.message)
       setActivePopups(activePopups.filter(p => p.uuid !== popup.uuid));
       setRecentPopups(recentPopups.filter(p => p.uuid !== popup.uuid));
     } catch (error) {
@@ -242,6 +248,14 @@ const Popup = () => {
         </div>
       </div>
     );
+  }
+
+  const notifyError = (message) => {
+    toast.error(message)
+  }
+
+  const notifySuccess = (message) => {
+    toast.success(message)
   }
 
   return (
@@ -299,9 +313,9 @@ const Popup = () => {
                     className="text-black text-sm font-thin"
                     onClick={handleRemove}
                   >
-                    <label class="relative inline-flex items-center cursor-pointer">
+                    <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" value="" className="sr-only peer" />
-                      <div class="peer ring-0 bg-rose-500  rounded-full outline-none duration-300 after:duration-500 w-7 h-7 pr-1  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️'] after:rounded-full after:absolute after:outline-none after:h-5 after:w-5 after:bg-gray-50 after:top-1 after:left-1 after:flex after:justify-center after:items-center  peer-hover:after:scale-75 peer-checked:after:content-['✔️'] after:-rotate-180 peer-checked:after:rotate-0">
+                      <div className="peer ring-0 bg-rose-500  rounded-full outline-none duration-300 after:duration-500 w-7 h-7 pr-1  shadow-md peer-checked:bg-emerald-500  peer-focus:outline-none  after:content-['✖️'] after:rounded-full after:absolute after:outline-none after:h-5 after:w-5 after:bg-gray-50 after:top-1 after:left-1 after:flex after:justify-center after:items-center  peer-hover:after:scale-75 peer-checked:after:content-['✔️'] after:-rotate-180 peer-checked:after:rotate-0">
                       </div>
                     </label>
                   </button>
@@ -311,13 +325,13 @@ const Popup = () => {
               {/* Toggle Switch */}
               <div className="flex flex-row justify-center items-center w-60 space-x-2">
                 <div className='flex items-center justify-center'>
-                  <label class="switch">
+                  <label className="switch">
                     <input
                       type="checkbox"
                       checked={onlyImage}
                       onChange={() => { setOnlyImage(!onlyImage) }}
                     />
-                    <span class="slider"></span>
+                    <span className="slider"></span>
                   </label>
                 </div>
                 <h3 className='text-black text-sm font-medium'>Image only</h3>
@@ -332,7 +346,7 @@ const Popup = () => {
               onChange={(e) => setFrequency(e.target.value)}
               className="bg-[#222630] px-2 py-1.5 outline-none w-full text-gray-300 rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040] cursor-pointer"
             >
-              <option value="once">Select frequency</option>
+              <option value="default">Select frequency</option>
               <option value="once">Once</option>
               <option value="onreload">On Reload</option>
               <option value="untilclicked">Until Clicked</option>
@@ -471,7 +485,7 @@ const Popup = () => {
                 <div className={`font-bold text-xl underline underline-offset-2 text-white`}>
                   {textAlignment === 'left' &&
                     <svg width="73px" height="73px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='w-6 h-6'>
-                      <path d="M3 10H16M3 14H21M3 18H16M3 6H21" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M3 10H16M3 14H21M3 18H16M3 6H21" stroke="#ffffff" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                   }
                   {textAlignment === 'center' &&
@@ -487,7 +501,7 @@ const Popup = () => {
                   }
                   {textAlignment === 'right' &&
                     <svg width="72px" height="72px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='w-6 h-6'>
-                      <path d="M8 10H21M3 14H21M8 18H21M3 6H21" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M8 10H21M3 14H21M8 18H21M3 6H21" stroke="#ffffff" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                   }
                 </div>
@@ -498,7 +512,7 @@ const Popup = () => {
                 onClick={toggleImageAlignment}
               >
                 <div className={`font-bold text-xl underline underline-offset-2 text-white`}>
-                  <svg fill="#ffffff" width="73px" height="73px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#fff" stroke-width="0.00020" className='w-6 h-6 fill-white'>
+                  <svg fill="#ffffff" width="73px" height="73px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#fff" strokeWidth="0.00020" className='w-6 h-6 fill-white'>
                     <path d="M0 26.016q0 2.496 1.76 4.224t4.256 1.76h20q2.464 0 4.224-1.76t1.76-4.224v-20q0-2.496-1.76-4.256t-4.224-1.76h-20q-2.496 0-4.256 1.76t-1.76 4.256v20zM4 26.016v-20q0-0.832 0.576-1.408t1.44-0.608h20q0.8 0 1.408 0.608t0.576 1.408v20q0 0.832-0.576 1.408t-1.408 0.576h-20q-0.832 0-1.44-0.576t-0.576-1.408zM6.016 24q0 0.832 0.576 1.44t1.408 0.576h16q0.832 0 1.408-0.576t0.608-1.44v-0.928q-0.224-0.448-1.12-2.688t-1.6-3.584-1.28-2.112q-0.544-0.576-1.12-0.608t-1.152 0.384-1.152 1.12-1.184 1.568-1.152 1.696-1.152 1.6-1.088 1.184-1.088 0.448q-0.576 0-1.664-1.44-0.16-0.192-0.48-0.608-1.12-1.504-1.6-1.824-0.768-0.512-1.184 0.352-0.224 0.512-0.928 2.24t-1.056 2.56v0.64zM6.016 9.024q0 1.248 0.864 2.112t2.112 0.864 2.144-0.864 0.864-2.112-0.864-2.144-2.144-0.864-2.112 0.864-0.864 2.144z"></path>
                   </svg>
                 </div>
@@ -510,12 +524,14 @@ const Popup = () => {
               >
                 <div className={`font-bold text-xl underline underline-offset-2 text-white`}>
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='w-6 h-6'>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V12.1893L14.4697 10.4697C14.7626 10.1768 15.2374 10.1768 15.5303 10.4697C15.8232 10.7626 15.8232 11.2374 15.5303 11.5303L12.5303 14.5303C12.3897 14.671 12.1989 14.75 12 14.75C11.8011 14.75 11.6103 14.671 11.4697 14.5303L8.46967 11.5303C8.17678 11.2374 8.17678 10.7626 8.46967 10.4697C8.76256 10.1768 9.23744 10.1768 9.53033 10.4697L11.25 12.1893V7C11.25 6.58579 11.5858 6.25 12 6.25ZM8 16.25C7.58579 16.25 7.25 16.5858 7.25 17C7.25 17.4142 7.58579 17.75 8 17.75H16C16.4142 17.75 16.75 17.4142 16.75 17C16.75 16.5858 16.4142 16.25 16 16.25H8Z" fill="#3bdb39"></path>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V12.1893L14.4697 10.4697C14.7626 10.1768 15.2374 10.1768 15.5303 10.4697C15.8232 10.7626 15.8232 11.2374 15.5303 11.5303L12.5303 14.5303C12.3897 14.671 12.1989 14.75 12 14.75C11.8011 14.75 11.6103 14.671 11.4697 14.5303L8.46967 11.5303C8.17678 11.2374 8.17678 10.7626 8.46967 10.4697C8.76256 10.1768 9.23744 10.1768 9.53033 10.4697L11.25 12.1893V7C11.25 6.58579 11.5858 6.25 12 6.25ZM8 16.25C7.58579 16.25 7.25 16.5858 7.25 17C7.25 17.4142 7.58579 17.75 8 17.75H16C16.4142 17.75 16.75 17.4142 16.75 17C16.75 16.5858 16.4142 16.25 16 16.25H8Z" fill="#3bdb39"></path>
                   </svg>
                 </div>
               </div>
             </div>
           </div>
+
+          <h1 className='text-sm text-white/80 text-center pb-2'>Tip: Drag the texts to place them in your preferred position.</h1>
 
           {/* Popup Preview */}
           <div ref={previewRef} className={`relative rounded-lg overflow-hidden flex justify-center items-center`}>
