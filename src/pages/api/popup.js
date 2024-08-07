@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://fnhrasuxqsiwksjtlltx.supabase.co';
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZuaHJhc3V4cXNpd2tzanRsbHR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjI5NTU3ODMsImV4cCI6MjAzODUzMTc4M30.vHGpUdYPz-KBmpRmcwfL7_kaGsK0d0ieWlt0j29sxXs";
+const supabaseKey = process.env.SUPABASEKEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Helper function to convert Blob to Base64
