@@ -534,260 +534,262 @@ const Popup = () => {
           <h1 className='text-sm text-white/80 text-center pb-2'>Tip: Drag the texts to place them in your preferred position.</h1>
 
           {/* Popup Preview */}
-          <div ref={previewRef} className={`relative rounded-lg overflow-hidden flex justify-center items-center`}>
-            {image ?
-              (onlyImage
-                ?
-                (
-                  <div className={`relative flex text-${textAlignment} w-[600px] h-[400px] border border-none rounded-lg`} style={{ backgroundColor: bgColor }}>
-                    <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
-                  </div>
+          <div className='flex justify-center items-center w-full'>
+            <div ref={previewRef} className={`relative rounded-lg overflow-hidden`}>
+              {image ?
+                (onlyImage
+                  ?
+                  (
+                    <div className={`relative flex text-${textAlignment} w-[600px] h-[400px] border border-none rounded-lg`} style={{ backgroundColor: bgColor }}>
+                      <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
+                    </div>
+                  )
+                  :
+                  (
+                    <div className='flex items-center'>
+                      {imagePosition === 'left' && (
+                        <div className={`relative flex text-${textAlignment} w-[600px] h-[350px] border border-none rounded-lg`} style={{ backgroundColor: bgColor }}>
+                          <div className="relative h-full w-1/2 bg-contain">
+                            <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
+                          </div>
+                          <div
+                            className="relative w-1/2 h-full flex flex-col items-center px-4"
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                          >
+
+                            <DraggableResizableBox
+                              content={heading}
+                              style={{
+                                fontSize: '22px',
+                                fontWeight: 'bold',
+                                color: headingColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px'
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={bodyText}
+                              style={{
+                                fontSize: '16px',
+                                fontWeight: 'normal',
+                                color: bodyColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px',
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={footerText}
+                              style={{
+                                fontSize: '12px',
+                                fontWeight: 'normal',
+                                color: footerColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '1 px',
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {imagePosition === 'right' && (
+                        <div className="relative flex w-[600px] h-[350px] border border-none  rounded-lg" style={{ backgroundColor: bgColor }}>
+                          <div className={`relative w-1/2 text-${textAlignment} h-full flex flex-col items-center justify-center px-4`}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                          >
+                            <DraggableResizableBox
+                              content={heading}
+                              style={{
+                                fontSize: '22px',
+                                fontWeight: 'bold',
+                                color: headingColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px'
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={bodyText}
+                              style={{
+                                fontSize: '16px',
+                                fontWeight: 'normal',
+                                color: bodyColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px',
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={footerText}
+                              style={{
+                                fontSize: '12px',
+                                fontWeight: 'normal',
+                                color: footerColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '1 px',
+                              }}
+                            />
+                          </div>
+                          <div className="relative h-full w-1/2 bg-contain">
+                            <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
+                          </div>
+                        </div>
+                      )}
+
+                      {imagePosition === 'top' && (
+                        <div className="w-[280px] h-[400px] border border-none flex flex-col items-center justify-center rounded-lg" style={{ backgroundColor: bgColor }}>
+                          <div className="h-1/2 w-full relative  bg-cover">
+                            <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
+                          </div>
+                          <div className={`h-1/2 w-full text-${textAlignment} flex flex-col items-center justify-center px-4`}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                          >
+                            <DraggableResizableBox
+                              content={heading}
+                              style={{
+                                fontSize: '22px',
+                                fontWeight: 'bold',
+                                color: headingColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px'
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={bodyText}
+                              style={{
+                                fontSize: '16px',
+                                fontWeight: 'normal',
+                                color: bodyColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px',
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={footerText}
+                              style={{
+                                fontSize: '12px',
+                                fontWeight: 'normal',
+                                color: footerColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '1 px',
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {imagePosition === 'bottom' && (
+                        <div className="w-[280px] h-[400px] border border-none flex flex-col rounded-lg" style={{ backgroundColor: bgColor }}>
+                          <div className={`h-1/2 w-full text-${textAlignment} flex flex-col items-center justify-center px-4`}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                          >
+                            <DraggableResizableBox
+                              content={heading}
+                              style={{
+                                fontSize: '22px',
+                                fontWeight: 'bold',
+                                color: headingColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px'
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={bodyText}
+                              style={{
+                                fontSize: '16px',
+                                fontWeight: 'normal',
+                                color: bodyColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '4 px',
+                              }}
+                            />
+
+                            <DraggableResizableBox
+                              content={footerText}
+                              style={{
+                                fontSize: '12px',
+                                fontWeight: 'normal',
+                                color: footerColor,
+                                border: isHovered ? '1px solid #000' : '1px solid transparent',
+                                transition: 'border 0.3s',
+                                padding: '1 px',
+                              }}
+                            />
+                          </div>
+                          <div className="h-1/2 w-full relative  bg-cover">
+                            <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
                 )
                 :
-                (
-                  <div className='flex items-center'>
-                    {imagePosition === 'left' && (
-                      <div className={`relative flex text-${textAlignment} w-[600px] h-[350px] border border-none rounded-lg`} style={{ backgroundColor: bgColor }}>
-                        <div className="relative h-full w-1/2 bg-contain">
-                          <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
-                        </div>
-                        <div
-                          className="relative w-1/2 h-full flex flex-col items-center px-4"
-                          onMouseEnter={() => setIsHovered(true)}
-                          onMouseLeave={() => setIsHovered(false)}
-                        >
+                <div className='flex justify-center items-center w-96'>
+                  <div className="relative h-36 w-full rounded-lg border border-none" style={{ backgroundColor: bgColor }}>
+                    <div className={`relative h-full text-${textAlignment} flex flex-col items-center justify-center px-4`}
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    >
+                      <DraggableResizableBox
+                        content={heading}
+                        style={{
+                          fontSize: '22px',
+                          fontWeight: 'bold',
+                          color: headingColor,
+                          border: isHovered ? '1px solid #000' : '1px solid transparent',
+                          transition: 'border 0.3s',
+                          padding: '4 px'
+                        }}
+                      />
 
-                          <DraggableResizableBox
-                            content={heading}
-                            style={{
-                              fontSize: '22px',
-                              fontWeight: 'bold',
-                              color: headingColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px'
-                            }}
-                          />
+                      <DraggableResizableBox
+                        content={bodyText}
+                        style={{
+                          fontSize: '16px',
+                          fontWeight: 'normal',
+                          color: bodyColor,
+                          border: isHovered ? '1px solid #000' : '1px solid transparent',
+                          transition: 'border 0.3s',
+                          padding: '4 px',
+                        }}
+                      />
 
-                          <DraggableResizableBox
-                            content={bodyText}
-                            style={{
-                              fontSize: '16px',
-                              fontWeight: 'normal',
-                              color: bodyColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px',
-                            }}
-                          />
-
-                          <DraggableResizableBox
-                            content={footerText}
-                            style={{
-                              fontSize: '12px',
-                              fontWeight: 'normal',
-                              color: footerColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '1 px',
-                            }}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {imagePosition === 'right' && (
-                      <div className="relative flex w-[600px] h-[350px] border border-none  rounded-lg" style={{ backgroundColor: bgColor }}>
-                        <div className={`relative w-1/2 text-${textAlignment} h-full flex flex-col items-center justify-center px-4`}
-                          onMouseEnter={() => setIsHovered(true)}
-                          onMouseLeave={() => setIsHovered(false)}
-                        >
-                          <DraggableResizableBox
-                            content={heading}
-                            style={{
-                              fontSize: '22px',
-                              fontWeight: 'bold',
-                              color: headingColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px'
-                            }}
-                          />
-
-                          <DraggableResizableBox
-                            content={bodyText}
-                            style={{
-                              fontSize: '16px',
-                              fontWeight: 'normal',
-                              color: bodyColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px',
-                            }}
-                          />
-
-                          <DraggableResizableBox
-                            content={footerText}
-                            style={{
-                              fontSize: '12px',
-                              fontWeight: 'normal',
-                              color: footerColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '1 px',
-                            }}
-                          />
-                        </div>
-                        <div className="relative h-full w-1/2 bg-contain">
-                          <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
-                        </div>
-                      </div>
-                    )}
-
-                    {imagePosition === 'top' && (
-                      <div className="w-[280px] h-[400px] border border-none flex flex-col items-center justify-center rounded-lg" style={{ backgroundColor: bgColor }}>
-                        <div className="h-1/2 w-full relative  bg-cover">
-                          <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
-                        </div>
-                        <div className={`h-1/2 w-full text-${textAlignment} flex flex-col items-center justify-center px-4`}
-                          onMouseEnter={() => setIsHovered(true)}
-                          onMouseLeave={() => setIsHovered(false)}
-                        >
-                          <DraggableResizableBox
-                            content={heading}
-                            style={{
-                              fontSize: '22px',
-                              fontWeight: 'bold',
-                              color: headingColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px'
-                            }}
-                          />
-
-                          <DraggableResizableBox
-                            content={bodyText}
-                            style={{
-                              fontSize: '16px',
-                              fontWeight: 'normal',
-                              color: bodyColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px',
-                            }}
-                          />
-
-                          <DraggableResizableBox
-                            content={footerText}
-                            style={{
-                              fontSize: '12px',
-                              fontWeight: 'normal',
-                              color: footerColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '1 px',
-                            }}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {imagePosition === 'bottom' && (
-                      <div className="w-[280px] h-[400px] border border-none flex flex-col rounded-lg" style={{ backgroundColor: bgColor }}>
-                        <div className={`h-1/2 w-full text-${textAlignment} flex flex-col items-center justify-center px-4`}
-                          onMouseEnter={() => setIsHovered(true)}
-                          onMouseLeave={() => setIsHovered(false)}
-                        >
-                          <DraggableResizableBox
-                            content={heading}
-                            style={{
-                              fontSize: '22px',
-                              fontWeight: 'bold',
-                              color: headingColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px'
-                            }}
-                          />
-
-                          <DraggableResizableBox
-                            content={bodyText}
-                            style={{
-                              fontSize: '16px',
-                              fontWeight: 'normal',
-                              color: bodyColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '4 px',
-                            }}
-                          />
-
-                          <DraggableResizableBox
-                            content={footerText}
-                            style={{
-                              fontSize: '12px',
-                              fontWeight: 'normal',
-                              color: footerColor,
-                              border: isHovered ? '1px solid #000' : '1px solid transparent',
-                              transition: 'border 0.3s',
-                              padding: '1 px',
-                            }}
-                          />
-                        </div>
-                        <div className="h-1/2 w-full relative  bg-cover">
-                          <Image src={image} className='rounded-lg' layout="fill" objectFit="cover" alt="Uploaded" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )
-              )
-              :
-              <div className='flex justify-center items-center w-96'>
-                <div className="relative h-36 w-full rounded-lg border border-none" style={{ backgroundColor: bgColor }}>
-                  <div className={`relative h-full text-${textAlignment} flex flex-col items-center justify-center px-4`}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                  >
-                    <DraggableResizableBox
-                      content={heading}
-                      style={{
-                        fontSize: '22px',
-                        fontWeight: 'bold',
-                        color: headingColor,
-                        border: isHovered ? '1px solid #000' : '1px solid transparent',
-                        transition: 'border 0.3s',
-                        padding: '4 px'
-                      }}
-                    />
-
-                    <DraggableResizableBox
-                      content={bodyText}
-                      style={{
-                        fontSize: '16px',
-                        fontWeight: 'normal',
-                        color: bodyColor,
-                        border: isHovered ? '1px solid #000' : '1px solid transparent',
-                        transition: 'border 0.3s',
-                        padding: '4 px',
-                      }}
-                    />
-
-                    <DraggableResizableBox
-                      content={footerText}
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 'normal',
-                        color: footerColor,
-                        border: isHovered ? '1px solid #000' : '1px solid transparent',
-                        transition: 'border 0.3s',
-                        padding: '1 px',
-                      }}
-                    />
+                      <DraggableResizableBox
+                        content={footerText}
+                        style={{
+                          fontSize: '12px',
+                          fontWeight: 'normal',
+                          color: footerColor,
+                          border: isHovered ? '1px solid #000' : '1px solid transparent',
+                          transition: 'border 0.3s',
+                          padding: '1 px',
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            }
+              }
+            </div>
           </div>
         </div>
       )
